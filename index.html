@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="BizFlow AI — outils simples pour gérer les ventes, calculer les bénéfices et préparer des factures.">
+<title>BizFlow AI — Gérez votre activité simplement</title>
+<style>
+:root{--bg:#090909;--panel:#171411;--line:#4b3a20;--text:#fffaf0;--muted:#c6bda9;--accent:#d4af37;--accent2:#f2d675}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#292014 0%,#11100d 42%,#080808 100%);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);line-height:1.5}
+.wrap{max-width:1050px;margin:auto;padding:22px}.nav{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-weight:850;font-size:1.2rem;letter-spacing:.2px}.brand span{color:var(--accent);text-shadow:0 0 18px #d4af3733}.badge{border:1px solid var(--line);border-radius:99px;padding:7px 12px;color:var(--muted);font-size:.82rem}
+.hero{padding:55px 0 32px;max-width:760px}.eyebrow{color:var(--accent);font-weight:750;text-transform:uppercase;font-size:.78rem;letter-spacing:1.5px}h1{font-size:clamp(2.25rem,7vw,4.4rem);line-height:1.05;letter-spacing:-2px;margin:14px 0}p{color:var(--muted)}.hero p{font-size:1.1rem;max-width:660px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0 36px}.card{background:linear-gradient(145deg,rgba(30,25,18,.98),rgba(16,16,15,.98));border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 16px 50px #0002}.card h2,.card h3{margin-top:0}.wide{grid-column:1/-1}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{display:block;color:var(--muted);font-size:.9rem;margin-bottom:6px}input,textarea,select{width:100%;background:#100f0c;border:1px solid #5b4827;border-radius:11px;padding:12px;color:var(--text);font:inherit}button,.button{display:inline-block;background:var(--accent);color:#0b1720;border:0;border-radius:11px;padding:12px 16px;font-weight:800;font:inherit;cursor:pointer;text-decoration:none;margin-top:12px}button.secondary{background:#292216;color:#fffaf0;border:1px solid #6b552c}.result{margin-top:14px;border:1px solid #5b4827;border-radius:12px;padding:14px;background:#0b1224}.result strong{color:var(--accent);font-size:1.25rem}.small{font-size:.84rem}.price{font-size:1.7rem;font-weight:850}.pill{display:inline-block;border:1px solid var(--line);padding:4px 9px;border-radius:99px;color:var(--muted);font-size:.8rem}.footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:.86rem}.list{padding-left:20px;color:var(--muted)}@media(max-width:700px){.grid,.fields{grid-template-columns:1fr}.wide{grid-column:auto}.hero{padding-top:38px}h1{letter-spacing:-1px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav"><div class="brand">BizFlow <span>AI</span></div><div class="badge">Prototype gratuit · Version 0.1</div></nav>
+  <header class="hero">
+    <div class="eyebrow">Moins de calculs. Plus de clarté.</div>
+    <h1>Gérez votre activité<br>en toute simplicité.</h1>
+    <p>Des outils pratiques pour les petites entreprises : calculez votre marge, préparez un devis et gardez une trace de vos ventes depuis votre téléphone.</p>
+    <span class="pill">Sans inscription</span> <span class="pill">Pensé pour mobile</span> <span class="pill">Aucune IA payante requise</span>
+  </header>
+  <main class="grid">
+    <section class="card">
+      <h2>📊 Calculateur de bénéfice</h2>
+      <p>Estimez ce qu'il vous reste après les coûts.</p>
+      <div class="fields">
+        <div><label for="sale">Prix de vente (FCFA)</label><input id="sale" type="number" min="0" value="10000"></div>
+        <div><label for="cost">Coût du produit (FCFA)</label><input id="cost" type="number" min="0" value="6500"></div>
+        <div><label for="extra">Autres frais (FCFA)</label><input id="extra" type="number" min="0" value="500"></div>
+        <div><label for="qty">Quantité vendue</label><input id="qty" type="number" min="1" value="1"></div>
+      </div>
+      <button onclick="calcProfit()">Calculer</button>
+      <div class="result" id="profitResult" aria-live="polite">Votre résultat apparaîtra ici.</div>
+    </section>
+    <section class="card">
+      <h2>🧾 Générateur de devis</h2>
+      <p>Préparez un devis simple à copier ou imprimer.</p>
+      <label for="business">Nom de votre activité</label><input id="business" placeholder="Ex. Ma Boutique">
+      <label for="client" style="margin-top:10px">Nom du client</label><input id="client" placeholder="Nom du client">
+      <label for="item" style="margin-top:10px">Produit ou service</label><input id="item" placeholder="Ex. Table à manger">
+      <div class="fields" style="margin-top:10px">
+        <div><label for="amount">Prix unitaire (FCFA)</label><input id="amount" type="number" min="0" value="25000"></div>
+        <div><label for="number">Quantité</label><input id="number" type="number" min="1" value="1"></div>
+      </div>
+      <button onclick="makeQuote()">Créer le devis</button>
+      <button class="secondary" onclick="window.print()">Imprimer / PDF</button>
+      <div class="result" id="quoteResult" aria-live="polite">Votre devis apparaîtra ici.</div>
+    </section>
+    <section class="card wide">
+      <h2>🛒 Mini-registre des ventes</h2>
+      <p>Ajoutez des ventes pour les voir dans cette session. Les données restent sur cette page et ne sont pas envoyées à un serveur.</p>
+      <div class="fields">
+        <div><label for="saleName">Produit vendu</label><input id="saleName" placeholder="Ex. Chaise"></div>
+        <div><label for="salePrice">Montant encaissé (FCFA)</label><input id="salePrice" type="number" min="0" placeholder="Ex. 15000"></div>
+      </div>
+      <button onclick="addSale()">Ajouter la vente</button>
+      <div class="result" id="salesResult">Aucune vente ajoutée.</div>
+    </section>
+    <section class="card wide">
+      <h2>🧭 Ce que cette première version fait — et ne fait pas</h2>
+      <ul class="list">
+        <li>Elle permet de tester gratuitement les outils de calcul et de devis.</li>
+        <li>Elle ne collecte pas de paiement et ne promet aucun revenu.</li>
+        <li>Elle n'est pas encore connectée à un compte, une base de données ou un service d'IA.</li>
+        <li>Avant de lancer un abonnement, il faudra demander à des utilisateurs ce qui leur serait vraiment utile et vérifier les solutions de paiement disponibles dans leurs pays.</li>
+      </ul>
+    </section>
+  </main>
+  <footer class="footer">BizFlow AI · Prototype de démonstration. Vérifiez les montants avant de remettre un devis à un client.</footer>
+</div>
+<script>
+const fmt = n => new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0}).format(n) + ' FCFA';
+function val(id){const n=Number(document.getElementById(id).value);return Number.isFinite(n)&&n>=0?n:0}
+function calcProfit(){
+ const sale=val('sale'),cost=val('cost'),extra=val('extra'),qty=Math.max(1,Math.floor(val('qty')));
+ const revenue=sale*qty, expenses=(cost+extra)*qty, profit=revenue-expenses;
+ const margin=revenue>0?(profit/revenue*100):0;
+ document.getElementById('profitResult').innerHTML=`Chiffre d'affaires : ${fmt(revenue)}<br>Coûts estimés : ${fmt(expenses)}<br><strong>Bénéfice estimé : ${fmt(profit)}</strong><br>Marge estimée : ${margin.toFixed(1)} %`;
+}
+function makeQuote(){
+ const biz=document.getElementById('business').value.trim()||'Mon activité';
+ const client=document.getElementById('client').value.trim()||'Client';
+ const item=document.getElementById('item').value.trim()||'Produit / service';
+ const price=val('amount'),qty=Math.max(1,Math.floor(val('number')));
+ document.getElementById('quoteResult').innerHTML=`<strong>${biz.replace(/[<>&"]/g,'')}</strong><br>Devis pour : ${client.replace(/[<>&"]/g,'')}<br>Objet : ${item.replace(/[<>&"]/g,'')}<br>Quantité : ${qty}<br>Prix unitaire : ${fmt(price)}<br><strong>Total : ${fmt(price*qty)}</strong><br><span class="small">Date : ${new Date().toLocaleDateString('fr-FR')}</span>`;
+}
+const sales=[];
+function addSale(){
+ const name=document.getElementById('saleName').value.trim();
+ const price=val('salePrice');
+ if(!name||price<=0){alert('Saisissez un produit et un montant supérieur à zéro.');return}
+ sales.push({name,price});
+ document.getElementById('saleName').value='';document.getElementById('salePrice').value='';
+ const total=sales.reduce((s,x)=>s+x.price,0);
+ document.getElementById('salesResult').innerHTML=`${sales.map((s,i)=>`${i+1}. ${s.name.replace(/[<>&"]/g,'')} — ${fmt(s.price)}`).join('<br>')}<hr>Total encaissé : <strong>${fmt(total)}</strong>`;
+}
+calcProfit();
+</script>
+</body>
+</html>
